@@ -188,6 +188,9 @@ PRODUCT_PACKAGES += \
     pack_intel \
     unpack_intel
 
+DEVICE_PACKAGE_OVERLAYS := \
+    device/asus/a500cg/overlay
+
 ############################### property ##########################
 
 PRODUCT_PROPERTY_OVERRIDES += \
