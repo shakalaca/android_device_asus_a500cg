@@ -1,2 +1,1 @@
-android_device_asus_a500cg
-==========================
+Device configuration for the ASUS ZenFone 5 a500cg
