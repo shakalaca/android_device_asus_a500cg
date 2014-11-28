@@ -1,0 +1,2 @@
+# label graphics device with a new type
+/dev/dri/card0   u:object_r:gpu_device:s0

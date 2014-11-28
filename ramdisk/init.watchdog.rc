@@ -1,0 +1,22 @@
+on init
+    chown system system /usr/bin/ia_watchdogd
+    chmod 0750 /usr/bin/ia_watchdogd
+
+service watchdogd /usr/bin/ia_watchdogd
+    class core
+    user system
+    group system
+    oneshot
+
+# Reset the watchdog counter once boot is completed
+on property:sys.boot_completed=1
+    write /sys/devices/virtual/misc/watchdog/counter "0"
+
+on property:init.svc.droidboot=running
+    write /sys/devices/virtual/misc/watchdog/counter "0"
+
+on property:init.svc.charger_app=running
+    write /sys/devices/virtual/misc/watchdog/counter "0"
+
+on property:init.svc.recovery=running
+    write /sys/devices/virtual/misc/watchdog/counter "0"

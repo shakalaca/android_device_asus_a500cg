@@ -1,0 +1,5 @@
+on init
+    start partlink
+
+service partlink /sbin/partlink
+    oneshot

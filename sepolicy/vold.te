@@ -1,0 +1,6 @@
+allow vold self:key { write search };
+allow vold self:key setattr;
+allow vold kernel:system module_request;
+allow vold system_data_file:dir setattr;
+allow vold ecryptfs:filesystem mount;
+allow vold ecryptfs:filesystem unmount;

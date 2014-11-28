@@ -1,0 +1,137 @@
+service logtoolinit /system/bin/sh /data/data/com.asus.fdclogtool/files/init_fdc_logtool.sh
+    disabled
+    oneshot
+
+service init_factorylog /system/bin/sh /system/etc/init_factorylogtool.sh
+    disabled
+    oneshot
+    
+service init_logdate /system/bin/sh /system/etc/init_log_date.sh
+    disabled
+    oneshot
+    user system
+    group system
+
+
+service initfacmodem /system/bin/modemfaclog
+    class main
+    disabled
+
+on post-fs-data
+   start init_logdate
+
+on property:persist.asuslog.dump.init=1
+    start logtoolinit
+
+on property:persist.asuslog.facmodeminit=1
+    start initfacmodem
+
+on property:persist.asuslog.facmodeminit=0
+    stop initfacmodem
+
+on property:persist.asuslog.fac.init=1
+    start init_factorylog
+
+service logMain /data/data/com.asus.fdclogtool/files/logdumps main 
+    class main
+    disabled
+
+
+service logKernel /data/data/com.asus.fdclogtool/files/logdumps kernel
+    class main
+    disabled
+
+service logRadio /data/data/com.asus.fdclogtool/files/logdumps radio
+    class main
+    disabled
+
+service logEvent /data/data/com.asus.fdclogtool/files/logdumps event
+    class main
+    disabled
+
+service logCombine /data/data/com.asus.fdclogtool/files/logdumps combine
+    class main
+    disabled
+
+service logTcpdump /data/data/com.asus.fdclogtool/files/logdumps tcpdump
+    class main
+    disabled
+
+on property:persist.asuslog.main.enable=1
+    start logMain
+
+on property:persist.asuslog.main.enable=0
+    stop logMain
+
+on property:persist.asuslog.kernel.enable=1
+    start logKernel
+
+on property:persist.asuslog.kernel.enable=0
+    stop logKernel
+
+on property:persist.asuslog.radio.enable=1
+    start logRadio
+
+on property:persist.asuslog.radio.enable=0
+    stop logRadio
+
+on property:persist.asuslog.events.enable=1
+    start logEvent
+
+on property:persist.asuslog.events.enable=0
+    stop logEvent
+
+on property:persist.asuslog.combine.enable=1
+    start logCombine
+
+on property:persist.asuslog.combine.enable=0
+    stop logCombine
+
+on property:persist.asuslog.tcpdump.enable=1
+    start logTcpdump
+
+on property:persist.asuslog.tcpdump.enable=0
+    stop logTcpdump
+
+#tcpdetect
+service tcpdetect /system/bin/tcpdetect
+    class main
+    disabled
+
+on property:persist.asuslog.dump.enable=1
+    start tcpdetect
+
+on property:persist.asuslog.dump.enable=0
+    stop tcpdetect
+
+#fdc_mts
+service fdcmts /system/bin/fdcmts
+    class main
+    disabled
+
+on property:persist.asuslog.fdcmts.enable=1
+    start fdcmts
+
+on property:persist.asuslog.fdcmts.enable=0
+    stop fdcmts
+
+#tool_connect
+service tool_connect /system/bin/tool_connect
+    class main
+    user root
+    group root
+    socket tool_connect stream 0666 system system
+    disabled
+
+on property:persist.service.tool.enable=1
+   start tool_connect
+
+on property:persist.service.tool.enable=0
+   stop tool_connect
+
+
+#logcommand
+service logcommand /system/bin/logcommand
+    class main
+    disabled
+    oneshot

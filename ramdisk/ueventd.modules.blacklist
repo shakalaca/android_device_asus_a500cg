@@ -1,0 +1,9 @@
+blacklist atmel_mxt_ts
+blacklist atomisp-css2300
+blacklist atomisp-css2400
+blacklist atomisp-css2400_v2
+blacklist atomisp-css2400b0_v2
+blacklist atomisp-css2400a0_v21
+blacklist atomisp-css2400b0_v21
+blacklist atomisp-css2401a0_legacy_v21
+blacklist atomisp-css2401a0_v21

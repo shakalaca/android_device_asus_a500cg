@@ -1,0 +1,20 @@
+# REDHOOKBAY specific rules for recovery os
+on early-init
+    insmod /lib/modules/pnwdisp.ko
+    insmod /lib/modules/pvrsgx.ko
+    chmod 0600 /dev/dri/controlD64
+    chmod 0770 /upi_ug31xx
+
+on init
+    setprop_from_sysfs /sys/kernel/fw_update/fw_info/ia32fw_version sys.ia32.version
+    setprop_from_sysfs /sys/kernel/fw_update/fw_info/supp_ia32fw_version sys.suppia32.version
+    setprop_from_sysfs /sys/kernel/fw_update/fw_info/ifwi_version sys.ifwi.version
+    setprop_from_sysfs /sys/kernel/fw_update/fw_info/punit_version sys.punit.version
+    setprop_from_sysfs /sys/kernel/fw_update/fw_info/scu_version sys.scu.version
+    setprop_from_sysfs /sys/kernel/fw_update/fw_info/valhooks_version sys.valhooks.version
+
+on boot
+    insmod /lib/modules/rmi4.ko boot_mode=1
+
+service upi_ug31xx /upi_ug31xx
+    class core

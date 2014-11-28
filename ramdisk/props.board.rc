@@ -1,0 +1,43 @@
+# redhookbay specific SPID based properties
+
+# Intel:Intel:*:Clovertrail:Redhookbay:<PR-boards>
+on property:ro.boot.spid=0000:0000:*:0002:?000:0004
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:0005
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:0006
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:0008
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:0009
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:000a
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:000b
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:000c
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:000d
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:000e
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:000f
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:0011
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:0013
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:0015
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:0016
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:0018
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:0019
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:001a
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:001b
+	setprop ro.sensors.mapper scale-pr1
+on property:ro.boot.spid=0000:0000:*:0002:?000:001c
+	setprop ro.sensors.mapper scale-pr1

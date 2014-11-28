@@ -1,0 +1,11 @@
+########################################################
+#  BLUETOOTH CONFIGURATION - BROADCOM SPECIFIC
+########################################################
+
+on init
+    insmod /lib/modules/bcm_bt_lpm.ko
+
+service rfkill_bt /system/bin/sh /rfkill_bt.sh
+    class core
+    user root
+    oneshot

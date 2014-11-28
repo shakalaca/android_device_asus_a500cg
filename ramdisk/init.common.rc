@@ -1,0 +1,222 @@
+import /init.watchdog.rc
+import /init.partlink.rc
+import /init.intel.features.rc
+
+on early-init
+    # set permission for charger-mode
+    chmod 0750 /charger
+    chown system system /dev/dri/card0
+    chmod 0666 /dev/dri/card0
+    symlink /dev/dri/card0 /dev/card0
+
+on init
+    # set usb serial number
+    write /sys/class/android_usb/android0/iSerial ${ro.serialno}
+
+    mkdir /storage/emulated 0555 root root
+
+    mkdir /mnt/shell/emulated 0700 shell shell
+
+    #mkdir /mnt/media_rw/usbcard1 0700 media_rw media_rw
+
+    export EXTERNAL_STORAGE /storage/emulated/legacy
+    export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
+    export EMULATED_STORAGE_TARGET /storage/emulated
+    # Disable SECONDARY_STORAGE in common
+    # Shall enable it in product
+    #export SECONDARY_STORAGE /storage/sdcard1
+
+    # Support legacy paths
+    symlink /storage/emulated/legacy /sdcard
+    symlink /storage/emulated/legacy /mnt/sdcard
+    symlink /storage/emulated/legacy /storage/sdcard0
+    symlink /mnt/shell/emulated/0 /storage/emulated/legacy
+
+    # Support external SD card
+    #mkdir /storage/sdcard1 0700 root root
+
+    # Support USB Disk
+    #mkdir /storage/usbcard1 0700 root root
+
+    mkdir /Removable 0755 media_rw sdcard_rw
+    mount tmpfs tmpfs /Removable mode=0755,gid=1000
+    export SECONDARY_STORAGE /Removable/MicroSD
+
+on boot
+    chown system system /dev/pvr_sync
+    chmod 666 /dev/pvr_sync
+
+#   chown system system /dev/dri/card0
+#   chmod 0666 /dev/dri/card0
+#   symlink /dev/dri/card0 /dev/card0
+
+    # IMG Graphics specific setup. See also "service pvrsrvctl"
+    # The permissions below should be tighter.
+    chown system system /dev/card0
+    chown system system /sys/class/backlight/psb-bl/brightness
+    chown system system /sys/class/backlight/psb-bl/max_brightness
+    chown system system /sys/class/backlight/psb-bl/actual_brightness
+    chmod 0666 /dev/card0
+    chmod 0664 /sys/class/backlight/psb-bl/brightness
+    chmod 0664 /sys/class/backlight/psb-bl/max_brightness
+    chmod 0664 /sys/class/backlight/psb-bl/actual_brightness
+
+    # For charging LED
+    chown system system /sys/class/leds/red/blink
+    chown system system /sys/class/leds/green/blink
+
+    chmod 0644 /sys/class/leds/red/blink
+    chmod 0644 /sys/class/leds/green/blink
+
+    #Change mmc queue nr_requests from 128 to 32 to reduce write latencies
+    write /sys/block/mmcblk0/queue/nr_requests 32
+
+
+# Change TCP Net-Core buffers sizes to improve cellular data throughput
+     write /proc/sys/net/core/rmem_default 1048576
+     write /proc/sys/net/core/rmem_max 2097152
+     write /proc/sys/net/core/wmem_max 1048576
+
+    #Set freezing timeout value as 2000ms
+    write /sys/power/pm_freeze_timeout 2000
+
+    #tinkerbell
+    chown system system /dev/tkb
+
+on fs
+    mkdir /factory 0775 system system
+    mkdir /config 0775 system system
+    mkdir /media 0775 media media
+    mount_all /fstab.redhookbay
+    mkdir /config/wifi
+    chown system wifi /config/wifi
+    chmod 0770 /config/wifi
+    asus_exec /system/bin/touch /config/upi_gg
+    chown system system /config/upi_gg
+    chmod 0660 /config/upi_gg
+    asus_exec /system/bin/touch /config/upi_bo
+    chown system system /config/upi_bo
+    chmod 0660 /config/upi_bo
+    asus_exec /system/bin/touch /config/upi_bo_auto
+    chown system system /config/upi_bo_auto
+    chmod 0660 /config/upi_bo_auto
+
+on post-fs
+# create virtual SD card at /mnt/sdcard, based on the /data/media directory
+# daemon will drop to user/group system/media_rw after initializing
+# underlying files in /data/media will be created with user and group media_rw (1023)
+service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
+    class late_start
+
+service fuse_MicroSD /system/bin/sdcard -u 1023 -g 1023 -w 1023 -d /mnt/media_rw/MicroSD /Removable/MicroSD
+    class late_start
+    disabled
+
+service fuse_USBdisk1 /system/bin/sdcard -u 1023 -g 1023 -l /mnt/media_rw/USBdisk1 /Removable/USBdisk1
+    class late_start
+    disabled
+
+on post-fs-data
+    mkdir /data/system/ 0770 system system
+    write /proc/sys/kernel/ctrl-alt-del 0
+
+    mkdir /mnt/asec/media 0770 media media
+
+    # Set indication (checked by vold) that we have finished this action
+    setprop vold.post_fs_data_done 1
+
+    # Set this property to force the camera shutter sound to play on speaker
+    setprop ro.camera.sound.forced 0
+
+    # Set this property to avoid fm rx to be muted
+    setprop ro.fmrx.sound.forced 1
+
+    # Set this property to enable Thermal service
+    setprop persist.service.thermal 1
+    # Properties for Thermal Service
+    setprop ro.thermal.ituxversion 2.0
+    setprop persist.thermal.shutdown.msg 1
+    setprop persist.thermal.shutdown.vibra 1
+    setprop persist.thermal.shutdown.tone 1
+    setprop persist.thermal.display.msg 1
+    setprop persist.thermal.display.vibra 1
+
+on charger
+    chown system system /dev/dri/card0
+    chmod 0666 /dev/dri/card0
+    symlink /dev/dri/card0 /dev/card0
+
+    # IMG Graphics specific setup. See also "service pvrsrvctl"
+    # The permissions below should be tighter.
+    chown system system /dev/card0
+
+    start pvrsrvctl
+    # reduce backlight
+    write /sys/class/backlight/psb-bl/brightness 50
+    #default setting to enable charging in COS
+    setprop sys.usb.config charging
+
+
+service pvrsrvctl /system/vendor/bin/pvrsrvctl --no-module --start
+    class core
+    oneshot
+    user root
+
+service ct_monitor /system/bin/ct_monitor
+    class core
+    user root
+
+service charger_app /charger
+    class charger
+    user root
+
+service drm /system/bin/drmserver
+    class main
+    user drm
+    group drm system inet drmrpc sdcard_r security
+
+#Enable Houdini for execuable
+service enable_houdini /system/bin/enable_houdini
+    class main
+    oneshot
+
+# This property trigger has added to imitiate the previous behavior of "adb root".
+# The adb gadget driver used to reset the USB bus when the adbd daemon exited,
+# and the host side adb relied on this behavior to force it to reconnect with the
+# new adbd instance after init relaunches it. So now we force the USB bus to reset
+# here when adbd sets the service.adb.root property to 1.  We also restart adbd here
+# rather than waiting for init to notice its death and restarting it so the timing
+# of USB resetting and adb restarting more closely matches the previous behavior.
+on property:service.adb.root=1
+    write /sys/class/android_usb/android0/enable 0
+    restart adbd
+    write /sys/class/android_usb/android0/enable 1
+
+on property:sys.property_forcedshutdown=1
+    write /sys/module/intel_mid_osip/parameters/force_shutdown_occured 1
+
+on property:sys.shutdown.requested=0
+    write /sys/devices/virtual/misc/watchdog/shutdown_ongoing 1
+
+on property:sys.shutdown.requested=1
+    write /sys/devices/virtual/misc/watchdog/reboot_ongoing 1
+
+on property:sys.shutdown.requested=1recovery
+    write /sys/devices/virtual/misc/watchdog/reboot_ongoing 1
+
+on property:sys.shutdown.requested=1bootloader
+    write /sys/devices/virtual/misc/watchdog/reboot_ongoing 1
+
+# bugreport is triggered by holding down volume down, volume up and power
+service bugreport /system/bin/dumpstate -d -p -B \
+        -o /data/data/com.android.shell/files/bugreports/bugreport
+    class main
+    disabled
+    oneshot
+    keycodes 114 115 116
+
+service tkbd /system/bin/tkbd
+    class main
+    user system
+    group system shell
+    socket tkbd stream 0660 system system

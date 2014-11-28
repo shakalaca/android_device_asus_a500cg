@@ -1,0 +1,22 @@
+apwr3_1.ko:
+st_drv.ko:
+mac80211.ko: cfg80211.ko
+videobuf-vmalloc.ko: videobuf-core.ko
+test_nx.ko:
+pax.ko:
+bcm_bt_lpm.ko:
+cfg80211.ko:
+sep3_10.ko:
+vtsspp.ko:
+videobuf-core.ko:
+atomisp-css2300.ko: videobuf-vmalloc.ko videobuf-core.ko
+imx111.ko:
+hm2056.ko:
+pvrsgx.ko: pnwdisp.ko
+pnwdisp.ko:
+rmi4.ko:
+imx219.ko:
+rt8515.ko:
+kxtj9.ko:
+bcm43362.ko: cfg80211.ko
+hdmi_audio.ko: pnwdisp.ko

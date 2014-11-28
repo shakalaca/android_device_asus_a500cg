@@ -1,0 +1,7 @@
+#adding Ecompass Daemon added by Eve_Wen change layout from 8 to 1(SR) 20131127
+service akmd  /system/bin/akmd09911 -m 1
+    class core
+    user system
+    group system misc input
+    oneshot
+

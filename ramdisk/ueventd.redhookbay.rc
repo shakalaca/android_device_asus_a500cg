@@ -1,0 +1,76 @@
+# Put Matrix driver device interface to diag grp
+/dev/matrix                             0640   root       diag
+
+# modem tty node change to radio user can read and write
+/dev/gsmtty*                            0660   root       radio
+/dev/ttyMFD*                            0660   root       radio
+
+# Audience device to audio group
+/dev/audience_es305                     0770   audio      audio
+/dev/intel_sst_ctrl                     0600   media      media
+/dev/switch_ctrl                        0660   media      media
+
+# The Intel camera device node should not be world writable/readable.
+/dev/video*                             0660   root       camera
+/dev/v4l-subdev*                        0660   root       camera
+/dev/media*                             0660   root       camera
+
+# Intel SCU watchdog
+/dev/watchdog                           0600   system     system
+
+# Device needed by shared transport layer (used by bluetooth, FM and GPS)
+/dev/rfkill                             0660   bluetooth  bluetooth
+/dev/hci_tty                            0660   bluetooth  bluetooth
+/dev/ttyMFD0                            0660   bluetooth  net_bt_stack
+/dev/ttyS1                              0660   bluetooth  bluetooth
+
+# Device needed by security functionalities
+/dev/sep_sec_driver                     0660   system     system
+/dev/mei                                0660   system     system
+/dev/meimm                              0660   system     system
+
+# Android sync framework sw driver
+/dev/sw_sync                            0660   system     system
+
+# NFCC devices
+/dev/pn544                              0660   nfc        nfc
+
+# UPI Gauge
+/dev/ug31xx                             0660   system     system
+
+# HSIC interfaces should only be readable for other
+/sys/devices/pci* hsic_enable           0664   root       system
+/sys/devices/pci* L2_autosuspend_enable 0664   root       system
+
+# Define intel modules args
+mod:iwlwifi		nvm_file=iwl_nvm_wkp.bin
+
+# Define bcm modules args
+mod:bcm4335		firmware_path=/system/etc/firmware/ nvram_path=/system/etc/firmware/
+mod:bcm43241		firmware_path=/system/etc/firmware/ nvram_path=/system/etc/firmware/
+mod:bcm4334x		firmware_path=/system/etc/firmware/ nvram_path=/system/etc/firmware/
+mod:bcm4334		firmware_path=/system/etc/firmware/ nvram_path=/system/etc/firmware/
+mod:bcm4354		firmware_path=/system/etc/firmware/ nvram_path=/system/etc/firmware/
+mod:bcm43362		firmware_path=/system/etc/firmware/fw_bcmdhd_43362.bin nvram_path=/system/etc/wifi/bcmdhd.cal
+
+mod:8723bs		ifname=wlan0 if2name=p2p0 rtw_power_mgnt=2 rtw_hwpwrp_detect=1
+
+# Define wlan.driver.vendor for different vendors
+# bcm
+uevent:sdio:c*v02D0d*   setprop wlan.driver.vendor bcm
+# ti
+uevent:sdio:c*v0097d*   setprop wlan.driver.vendor ti
+# mtk
+uevent:sdio:c*v037Ad*   setprop wlan.driver.vendor mtk
+# intel
+uevent:sdio:c*v0089d*   setprop wlan.driver.vendor intel
+# realtek
+uevent:sdio:c*v024Cd*	setprop wlan.driver.vendor rtl
+
+/dev/ttyACM*              0660   root       radio
+/dev/ttyPTI1              0660   root       radio
+/dev/ttyGS0               0660   root       radio
+/dev/mdmTrace             0660   root       radio
+/dev/mdm_ctrl             0660   root       radio
+/dev/ttyIFX0              0660   root       radio
+/dev/ttyIFX1              0660   root       radio

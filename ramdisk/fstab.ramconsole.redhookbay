@@ -1,0 +1,3 @@
+/dev/block/platform/intel/by-label/system	/system	ext4	ro,noatime	wait
+*/block/mmcblk1                          	/Removable/MicroSD	vfat	None	wait,voldmanaged=MicroSD:auto,noemulatedsd
+*/block/sd                               	auto   	vfat	None	wait,voldmanaged=USBdisk1:auto
