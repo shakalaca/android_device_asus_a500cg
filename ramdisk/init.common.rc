@@ -41,6 +41,8 @@ on init
     mkdir /Removable 0755 media_rw sdcard_rw
     mount tmpfs tmpfs /Removable mode=0755,gid=1000
     export SECONDARY_STORAGE /Removable/MicroSD
+    mkdir /mnt/media_rw/MicroSD 0700 media_rw media_rw
+    mkdir /Removable/MicroSD 0700 root root    
 
 on boot
     chown system system /dev/pvr_sync

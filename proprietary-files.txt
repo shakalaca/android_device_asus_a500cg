@@ -31,6 +31,7 @@ system/bin/rdnssd
 system/bin/tkbd
 system/bin/topaz_bin
 system/bin/vibrator
+system/bin/vold
 system/bin/wlan_prov
 
 # system/etc

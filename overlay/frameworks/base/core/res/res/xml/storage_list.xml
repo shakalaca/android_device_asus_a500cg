@@ -23,4 +23,10 @@
     android:primary="true"
     android:emulated="true" 
     android:mtpReserve="100" />
+<storage
+    android:mountPoint="/Removable/MicroSD"
+    android:storageDescription="@string/storage_sd_card"
+    android:primary="false"
+    android:removable="true"
+    android:maxFileSize="4096" />
 </StorageList>
