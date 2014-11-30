@@ -76,9 +76,9 @@ PRODUCT_COPY_FILES += \
 
 # Binary to be replaced with source code ..
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/ramdisk/init:root/init
-#    $(LOCAL_PATH)/ramdisk/sbin/adbd:root/sbin/adbd
-#    $(LOCAL_PATH)/ramdisk/sepolicy:root/sepolicy \
+    $(LOCAL_PATH)/ramdisk/init:root/init \
+    $(LOCAL_PATH)/ramdisk/sbin/adbd:root/sbin/adbd \
+    $(LOCAL_PATH)/ramdisk/sepolicy:root/sepolicy
 
 # Modules (currently from ASUS)
 PRODUCT_COPY_FILES += \
@@ -187,6 +187,9 @@ PRODUCT_PACKAGES += \
     openssl \
     pack_intel \
     unpack_intel
+
+PRODUCT_PACKAGES += \
+    link_modprobe
 
 DEVICE_PACKAGE_OVERLAYS := \
     device/asus/a500cg/overlay
