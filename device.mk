@@ -149,16 +149,16 @@ PRODUCT_COPY_FILES += \
 
 # for external SD card
 PRODUCT_COPY_FILES += \
-    device/asus/a500cg/configs/platform.xml:system/etc/permissions/platform.xml
+    $(LOCAL_PATH)/configs/platform.xml:system/etc/permissions/platform.xml
 
 # media
 PRODUCT_COPY_FILES += \
-    device/asus/a500cg/configs/media_codecs.xml:system/etc/media_codecs.xml \
-    device/asus/a500cg/configs/media_profiles.xml:system/etc/media_profiles.xml
+    $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
+    $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml
 
 # audio
 PRODUCT_COPY_FILES += \
-    device/asus/a500cg/configs/audio_effects.conf:system/vendor/etc/audio_effects.conf
+    $(LOCAL_PATH)/configs/audio_effects.conf:system/vendor/etc/audio_effects.conf
 
 PRODUCT_PACKAGES += \
     audio.a2dp.default \
@@ -192,7 +192,7 @@ PRODUCT_PACKAGES += \
     link_modprobe
 
 DEVICE_PACKAGE_OVERLAYS := \
-    device/asus/a500cg/overlay
+    $(LOCAL_PATH)/overlay
 
 ############################### property ##########################
 
