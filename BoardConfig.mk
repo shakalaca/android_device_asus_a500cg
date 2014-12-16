@@ -28,9 +28,10 @@ BOARD_KERNEL_CMDLINE := init=/init pci=noearly console=logk0 earlyprintk=nologge
 
 # Recovery
 TARGET_RECOVERY_FSTAB := device/asus/a500cg/ramdisk/recovery.fstab
-TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 TARGET_RECOVERY_INITRC := device/asus/a500cg/ramdisk/recovery.init.redhookbay.rc
+TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 TARGET_PREBUILT_RECOVERY_KERNEL := device/asus/a500cg/blobs/kernel-ww-2.20.40.13
+TARGET_RECOVERY_SCREEN_WIDTH := 720
 RECOVERY_SDCARD_ON_DATA := true
 DEVICE_RESOLUTION := 720x1280
 
