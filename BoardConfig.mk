@@ -79,6 +79,7 @@ BOARD_SEPOLICY_DIRS += device/asus/a500cg/sepolicy
 BOARD_SEPOLICY_UNION += \
     file_contexts \
     seapp_contexts \
+    property_contexts \
     file.te \
     genfs_contexts \
     device.te \
