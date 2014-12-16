@@ -125,6 +125,9 @@ on boot
     #set dirty background bytes to 16MB to reduce USB MTP write latencies
     write /proc/sys/vm/dirty_background_bytes 16777216
 
+    write /sys/devices/platform/leds-asus/leds/red/brightness 0
+    write /sys/devices/platform/leds-asus/leds/green/brightness 0
+
 on post-fs-data
     insmod /lib/prebuild_modules/texfat.ko
     insmod /lib/prebuild_modules/tntfs.ko
