@@ -87,7 +87,10 @@ BOARD_SEPOLICY_UNION += \
     ecryptfs.te \
     surfaceflinger.te \
     zygote.te \
-    su.te
+    su.te \
+    pvrsrvctl.te \
+    bluetooth.te \
+    mediaserver.te
 
 # USE_INTEL_MDP := true
 # BUILD_WITH_FULL_STAGEFRIGHT := true

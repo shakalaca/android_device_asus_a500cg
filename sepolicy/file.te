@@ -1,1 +1,3 @@
+type bluetooth_control, dev_type;
+
 type ecryptfs, fs_type;
