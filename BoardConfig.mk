@@ -95,3 +95,11 @@ BOARD_SEPOLICY_UNION += \
 # BOARD_USE_LIBVA_INTEL_DRIVER := true
 # BOARD_USE_LIBVA := true
 # BOARD_USE_LIBMIX := true
+
+INTEL_HOUDINI := true
+ifdef ($(INTEL_HOUDINI))
+ADDITIONAL_BUILD_PROPERTIES += ro.product.cpu.abi2=armeabi-v7a
+ADDITIONAL_BUILD_PROPERTIES += ro.product.cpu.upgradeabi=armeabi-v7a
+ADDITIONAL_BUILD_PROPERTIES += dalvik.vm.houdini=on
+endif
+
