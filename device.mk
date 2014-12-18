@@ -192,6 +192,14 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     link_modprobe
 
+PRODUCT_PACKAGES += \
+    Superuser \
+    daemonsu \
+    supolicy \
+    libsupol \
+    install-recovery.sh \
+    link_su_binary
+
 DEVICE_PACKAGE_OVERLAYS := \
     $(LOCAL_PATH)/overlay
 
