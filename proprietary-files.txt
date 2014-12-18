@@ -36,8 +36,6 @@ system/bin/mkexfat
 system/bin/mkntfs
 system/bin/ntfsck
 
-# TelephonyProvider
-system/etc/apns-conf.xml
 # TeleService
 system/etc/plmns.xml
 # Racoon service
