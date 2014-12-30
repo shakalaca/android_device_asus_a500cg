@@ -19,8 +19,11 @@ TARGET_BOOTLOADER_BOARD_NAME := clovertrail
 TARGET_NO_RECOVERY := false
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
+TARGET_PREBUILT_KERNEL := device/asus/a500cg/blobs/kernel-ww-2.20.40.13
 
 # Kernel config (reference only)
+#TARGET_KERNEL_SOURCE :=/home/quanganh2627/revo/linux/kernel
+#TARGET_KERNEL_CONFIG :=/home/quanganh2627/revo/device/asus/a500cg/a500cg_diffconfig
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE := 2048
 cmdline_extra := watchdog.watchdog_thresh=60 androidboot.spid=xxxx:xxxx:xxxx:xxxx:xxxx:xxxx androidboot.serialno=01234567890123456789012345678901
@@ -31,9 +34,15 @@ TARGET_RECOVERY_FSTAB := device/asus/a500cg/ramdisk/recovery.fstab
 TARGET_RECOVERY_INITRC := device/asus/a500cg/ramdisk/recovery.init.redhookbay.rc
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 TARGET_PREBUILT_RECOVERY_KERNEL := device/asus/a500cg/blobs/kernel-ww-2.20.40.13
-TARGET_RECOVERY_SCREEN_WIDTH := 720
-RECOVERY_SDCARD_ON_DATA := true
 DEVICE_RESOLUTION := 720x1280
+TARGET_RECOVERY_SCREEN_WIDTH := 720
+TARGET_RECOVERY_SCREEN_HEIGHT := 1280
+RECOVERY_SDCARD_ON_DATA := true
+RECOVERY_VARIANT := philz
+TARGET_SCREEN_HEIGHT := 1280
+TARGET_SCREEN_WIDTH := 720
+BRIGHTNESS_SYS_FILE := "/sys/class/backlight/psb-sl/brightness"
+#TARGET_RECOVERY_INITRC := vendor/samsung/common_init/init.philz*.rc
 
 # File system
 TARGET_USERIMAGES_USE_EXT4 := true
