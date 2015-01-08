@@ -33,40 +33,47 @@ PRODUCT_AAPT_PREF_CONFIG := xhdpi
 DEVICE_BASE_BOOT_IMAGE := $(LOCAL_PATH)/blobs/boot-ww-2.20.40.13.img
 DEVICE_BASE_RECOVERY_IMAGE := $(LOCAL_PATH)/blobs/recovery-ww-2.20.40.13.img
 BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/intel-boot-tools/boot.mk
+CUSTOM_SUPERUSER = Superuser
+
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
+    
 
 # Ramdisk fstab / rc files
+# Ramdisk
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/ramdisk/init.watchdog.rc:root/init.watchdog.rc \
-    $(LOCAL_PATH)/ramdisk/fstab.charger.redhookbay:root/fstab.charger.redhookbay \
-    $(LOCAL_PATH)/ramdisk/fstab.ramconsole.redhookbay:root/fstab.ramconsole.redhookbay \
-    $(LOCAL_PATH)/ramdisk/fstab.redhookbay:root/fstab.redhookbay \
-    $(LOCAL_PATH)/ramdisk/init.avc.rc:root/init.avc.rc \
-    $(LOCAL_PATH)/ramdisk/init.bt.rc:root/init.bt.rc \
-    $(LOCAL_PATH)/ramdisk/init.compass.rc:root/init.compass.rc \
-    $(LOCAL_PATH)/ramdisk/init.debug.rc:root/init.debug.rc \
-    $(LOCAL_PATH)/ramdisk/init.diag.rc:root/init.diag.rc \
-    $(LOCAL_PATH)/ramdisk/init.logtool.rc:root/init.logtool.rc \
-    $(LOCAL_PATH)/ramdisk/init.partlink.rc:root/init.partlink.rc \
-    $(LOCAL_PATH)/ramdisk/init.environ.rc:root/init.environ.rc \
-    $(LOCAL_PATH)/ramdisk/init.bt.vendor.rc:root/init.bt.vendor.rc \
-    $(LOCAL_PATH)/ramdisk/init.common.rc:root/init.common.rc \
-    $(LOCAL_PATH)/ramdisk/init.gps.rc:root/init.gps.rc \
-    $(LOCAL_PATH)/ramdisk/init.modem.rc:root/init.modem.rc \
-    $(LOCAL_PATH)/ramdisk/init.platform.usb.rc:root/init.platform.usb.rc \
-    $(LOCAL_PATH)/ramdisk/init.rc:root/init.rc \
-    $(LOCAL_PATH)/ramdisk/init.redhookbay.rc:root/init.redhookbay.rc \
-    $(LOCAL_PATH)/ramdisk/init.wifi.rc:root/init.wifi.rc \
-    $(LOCAL_PATH)/ramdisk/init.wifi.vendor.rc:root/init.wifi.vendor.rc \
-    $(LOCAL_PATH)/ramdisk/init.wireless.rc:root/init.wireless.rc \
-    $(LOCAL_PATH)/ramdisk/props.board.rc:root/props.board.rc \
-    $(LOCAL_PATH)/ramdisk/props.platform.rc:root/props.platform.rc \
-    $(LOCAL_PATH)/ramdisk/props.rc:root/props.rc \
-    $(LOCAL_PATH)/ramdisk/rfkill_bt.sh:root/rfkill_bt.sh \
-    $(LOCAL_PATH)/ramdisk/ueventd.modules.blacklist:root/ueventd.modules.blacklist \
-    $(LOCAL_PATH)/ramdisk/ueventd.redhookbay.rc:root/ueventd.redhookbay.rc
+        $(call find-copy-subdir-files,*,$(LOCAL_PATH)/ramdisk,recovery/root) \
+        $(call find-copy-subdir-files,*,$(LOCAL_PATH)/ramdisk/lib/modules,system/lib/modules)
+##PRODUCT_COPY_FILES += \
+    #$(LOCAL_PATH)/ramdisk/init.watchdog.rc:root/init.watchdog.rc \
+    #$(LOCAL_PATH)/ramdisk/fstab.charger.redhookbay:root/fstab.charger.redhookbay \
+    #$(LOCAL_PATH)/ramdisk/fstab.ramconsole.redhookbay:root/fstab.ramconsole.redhookbay \
+    #$(LOCAL_PATH)/ramdisk/fstab.redhookbay:root/fstab.redhookbay \
+    #$(LOCAL_PATH)/ramdisk/init.avc.rc:root/init.avc.rc \
+    #$(LOCAL_PATH)/ramdisk/init.bt.rc:root/init.bt.rc \
+    #$(LOCAL_PATH)/ramdisk/init.compass.rc:root/init.compass.rc \
+    #$(LOCAL_PATH)/ramdisk/init.debug.rc:root/init.debug.rc \
+    #$(LOCAL_PATH)/ramdisk/init.diag.rc:root/init.diag.rc \
+    #$(LOCAL_PATH)/ramdisk/init.logtool.rc:root/init.logtool.rc \
+    #$(LOCAL_PATH)/ramdisk/init.partlink.rc:root/init.partlink.rc \
+    #$(LOCAL_PATH)/ramdisk/init.environ.rc:root/init.environ.rc \
+    #$(LOCAL_PATH)/ramdisk/init.bt.vendor.rc:root/init.bt.vendor.rc \
+    #$(LOCAL_PATH)/ramdisk/init.common.rc:root/init.common.rc \
+    #$(LOCAL_PATH)/ramdisk/init.gps.rc:root/init.gps.rc \
+    #$(LOCAL_PATH)/ramdisk/init.modem.rc:root/init.modem.rc \
+    #$(LOCAL_PATH)/ramdisk/init.platform.usb.rc:root/init.platform.usb.rc \
+    #$(LOCAL_PATH)/ramdisk/init.rc:root/init.rc \
+    #$(LOCAL_PATH)/ramdisk/init.redhookbay.rc:root/init.redhookbay.rc \
+    #$(LOCAL_PATH)/ramdisk/init.wifi.rc:root/init.wifi.rc \
+    #$(LOCAL_PATH)/ramdisk/init.wifi.vendor.rc:root/init.wifi.vendor.rc \
+    #$(LOCAL_PATH)/ramdisk/init.wireless.rc:root/init.wireless.rc \
+    #$(LOCAL_PATH)/ramdisk/props.board.rc:root/props.board.rc \
+    #$(LOCAL_PATH)/ramdisk/props.platform.rc:root/props.platform.rc \
+    #$(LOCAL_PATH)/ramdisk/props.rc:root/props.rc \
+    #$(LOCAL_PATH)/ramdisk/rfkill_bt.sh:root/rfkill_bt.sh \
+    #$(LOCAL_PATH)/ramdisk/ueventd.modules.blacklist:root/ueventd.modules.blacklist \
+    #$(LOCAL_PATH)/ramdisk/ueventd.redhookbay.rc:root/ueventd.redhookbay.rc
 
 # Intel blobs
 PRODUCT_COPY_FILES += \
