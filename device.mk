@@ -263,3 +263,5 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 
 # setup dalvik vm configs.
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
+
+PRODUCT_CHARACTERISTICS := phone
