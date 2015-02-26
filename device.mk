@@ -256,8 +256,8 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.system.at-proxy.mode=0
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    ro.debuggable=0 \
-    persist.sys.usb.config=mtp
+    ro.debuggable=1 \
+    persist.sys.usb.config=mtp,adb
 #    ro.secure=0 \
 #    ro.adb.secure=0 \
 
