@@ -14,6 +14,9 @@
 # limitations under the License.
 #
 
+# Base directory for mixin implementations
+$(call add-mixin-basedir, device/intel/mixins)
+
 LOCAL_PATH := device/asus/a500cg
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
@@ -26,7 +29,7 @@ endif
 # currently contain all of the bitmaps at xhdpi density so
 # we do this little trick to fall back to the hdpi version
 # if the xhdpi doesn't exist.
-PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
+#PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
 DEVICE_BASE_BOOT_IMAGE := $(LOCAL_PATH)/blobs/boot-ww-2.20.40.13.img
@@ -125,7 +128,6 @@ PRODUCT_COPY_FILES += \
 
 # Permissions
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
     frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
@@ -255,13 +257,34 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     gsm.net.interface=rmnet0 \
     persist.system.at-proxy.mode=0
 
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    ro.debuggable=0 \
-    persist.sys.usb.config=mtp
-#    ro.secure=0 \
-#    ro.adb.secure=0 \
-
 # setup dalvik vm configs.
-$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
+#$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 
 PRODUCT_CHARACTERISTICS := phone
+
+# Houdini
+PRODUCT_COPY_FILES += \
+        $(call find-copy-subdir-files,*,$(LOCAL_PATH)/houdini/system,system)
+
+PRODUCT_PACKAGES += \
+   libhoudini_hook \
+   houdini_hook
+$(call inherit-mixin, graphics, none)
+
+$(call inherit-mixin, apps-for-android, false)
+$(call inherit-mixin, boot-arch, none)
+$(call inherit-mixin, cpu-arch, atom)
+$(call inherit-mixin, device-type, handheld)
+$(call inherit-mixin, superuser, cyanogen)
+$(call inherit-mixin, dalvik-heap, phone-xhdpi-1024)
+$(call inherit-mixin, debug-tools, all)
+$(call inherit-mixin, display-density, xhigh)
+$(call inherit-mixin, product-aapt, default)
+$(call inherit-mixin, telephony, gsm)
+
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    ro.debuggable=1 \
+    persist.sys.usb.config=mtp \
+    ro.secure=0 \
+    ro.adb.secure=0 \
+
