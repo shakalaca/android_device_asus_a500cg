@@ -15,7 +15,7 @@
 #
 
 # Base directory for mixin implementations
-$(call add-mixin-basedir, device/intel/mixins)
+#$(call add-mixin-basedir, device/intel/mixins)
 
 LOCAL_PATH := device/asus/a500cg
 
@@ -29,7 +29,7 @@ endif
 # currently contain all of the bitmaps at xhdpi density so
 # we do this little trick to fall back to the hdpi version
 # if the xhdpi doesn't exist.
-#PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
+PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
 DEVICE_BASE_BOOT_IMAGE := $(LOCAL_PATH)/blobs/boot-ww-2.20.40.13.img
@@ -258,7 +258,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.system.at-proxy.mode=0
 
 # setup dalvik vm configs.
-#$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
+$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 
 PRODUCT_CHARACTERISTICS := phone
 
@@ -269,20 +269,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
    libhoudini_hook \
    houdini_hook
-$(call inherit-mixin, graphics, none)
 
-$(call inherit-mixin, apps-for-android, false)
-$(call inherit-mixin, boot-arch, none)
-$(call inherit-mixin, cpu-arch, atom)
-$(call inherit-mixin, device-type, handheld)
-$(call inherit-mixin, superuser, cyanogen)
-$(call inherit-mixin, dalvik-heap, phone-xhdpi-1024)
-$(call inherit-mixin, debug-tools, all)
-$(call inherit-mixin, display-density, xhigh)
-$(call inherit-mixin, product-aapt, default)
-$(call inherit-mixin, telephony, gsm)
-
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+PRODUCT__DEFAULT_PROPERTY_OVERRIDES += \
     ro.debuggable=1 \
     persist.sys.usb.config=mtp \
     ro.secure=0 \
