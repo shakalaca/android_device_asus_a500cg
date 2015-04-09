@@ -21,6 +21,8 @@ ifeq ($(TARGET_PREBUILT_KERNEL),)
 else
 	LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
+COMMON_PATH := device/intel/common
+SUPPORT_PATH := vendor/intel/support
 
 
 # This device is xhdpi.  However the platform doesn't
@@ -38,7 +40,7 @@ CUSTOM_SUPERUSER = Superuser
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
-    
+
 
 # Ramdisk fstab / rc files
 # Ramdisk
@@ -203,6 +205,110 @@ PRODUCT_PACKAGES += \
 DEVICE_PACKAGE_OVERLAYS := \
     $(LOCAL_PATH)/overlay
 
+# This library is required for Intel's implementation of Dalvik
+# libpcgdvmjit is a part of Dalvik JIT compiler
+PRODUCT_PACKAGES += libpcgdvmjit
+
+# This library is required for Intel's implementation of Dalvik
+# libcrash is a library which provides recorded state of an applications
+# which crashed while running on Dalvik VM
+PRODUCT_PACKAGES += libcrash
+
+# This is needed to enable silver art optimizer.
+# This will build the plugins/libart-extension.so library,  which is dynamically loaded by
+# AOSP and contains Intel optimizations to the compiler.
+PRODUCT_PACKAGES += \
+    libart-extension \
+    libartd-extension
+# Target image build tools.
+# These are defined in libintelprov/Android.mk
+# Note: some of these have ".py" (python) suffixes. The suffix must
+#       not be specified in PRODUCT_PACKAGES... it gets stripped by the
+#       core/multi_prebuilt.mk auto-prebuilt-boilerplate rule.
+PRODUCT_PACKAGES += \
+    releasetools \
+    ota_from_target_files \
+    check_target_files_signatures \
+    common \
+    edify_generator \
+    lfstk_wrapper \
+    mfld_osimage \
+    product_name_mapping \
+    sign_target_files_apks
+
+#Houdini prebuilt
+HOUDINI_ARM_PREBUILTS_DIR := vendor/intel/houdini/arm
+houdini_prebuilt_stamp := $(HOUDINI_ARM_PREBUILTS_DIR)/stamp-prebuilt-done
+houdini_prebuilt_done := $(wildcard $(houdini_prebuilt_stamp))
+ifneq ($(houdini_prebuilt_done),)
+INTEL_HOUDINI := true
+#Houdini
+PRODUCT_PACKAGES += libhoudini \
+    houdini \
+    enable_houdini \
+    disable_houdini \
+    check.xml \
+    cpuinfo \
+    cpuinfo.neon
+
+#houdini arm libraries
+-include vendor/intel/houdini/houdini.mk
+endif
+include $(COMMON_PATH)/memory/memory-spectrum.mk
+
+#Add Power HAL Package
+PRODUCT_PACKAGES += \
+    power.$(PRODUCT_DEVICE)
+
+#Add SensorCal App
+PRODUCT_PACKAGES += \
+    SensorCal
+
+#Add update_recovery binary for OTA
+PRODUCT_PACKAGES += \
+    update_recovery
+
+#Add make_ext4fs tool for JB's encryption app feature
+PRODUCT_PACKAGES += \
+    make_ext4fs
+
+#for burst capture
+PRODUCT_PACKAGES += \
+    fast_click.pcm
+
+#Use partlink block devices
+PRODUCT_PACKAGES += \
+    partlink
+
+# SpeechRecorder for eng build variant
+ifneq ($(filter $(TARGET_BUILD_VARIANT),eng),)
+PRODUCT_PACKAGES += \
+    SpeechRecorder
+endif
+#AESNI for bouncycastle
+PRODUCT_PACKAGES += \
+        libaesni
+
+# copy boot animation resources
+#PRODUCT_COPY_FILES += \
+    #$(COMMON_PATH)/bootanimation.zip:system/media/bootanimation.zip
+
+# Copy sar manager resources
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/sarconfig.xml:system/etc/sarconfig.xml
+# Android Security Framework
+PRODUCT_PACKAGES += \
+        init.intel.feature.asf.rc \
+        com.intel.asf \
+        com.intel.asf.xml \
+        securityfileservice \
+        securitydeviceservice \
+        SecurityManagerService
+
+# This library is required for Intel's implementation of Dalvik
+# libpcgdvmjit is a part of Dalvik JIT compiler
+PRODUCT_PACKAGES += libpcgdvmjit
+
 ############################### property ##########################
 
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -266,8 +372,10 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     ro.debuggable=0 \
     persist.sys.usb.config=mtp
-#    ro.secure=0 \
-#    ro.adb.secure=0 \
+    ro.secure=0 \
+    ro.adb.secure=0 \
 
 # setup dalvik vm configs.
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
+include $(TOPDIR)prebuilts/intel/Android.mk
+include $(TOPDIR)hardware/intel/Android.mk

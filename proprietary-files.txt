@@ -9,7 +9,7 @@ system/bin/vold
 system/bin/droidboot
 system/bin/msvdx_bin
 system/bin/topaz_bin
-system/bin/tkbd
+#system/bin/tkbd
 system/bin/cpdd
 system/bin/miu-app
 system/bin/dpstmgr
@@ -92,7 +92,7 @@ system/lib/libevent-listener.so
 system/lib/libproperty.so
 # hardware/intel/PREBUILT/libsharedbuffer (libvideoeditor_cor.so)
 system/lib/libsharedbuffer.so
-# Intel 
+# Intel
 system/lib/libI420colorconvert.so
 # ASUS
 system/lib/libdumpsys_logtool.so
@@ -157,7 +157,7 @@ system/usr/share/alsa/alsa.conf
 # Intel blobs
 system/vendor/lib/librsccompiler.so
 system/vendor/lib/librsccore.bc
-system/lib/libclcore.bc    
+system/lib/libclcore.bc
 system/lib/libclcore_debug.bc
 system/lib/libclcore_x86.bc
 

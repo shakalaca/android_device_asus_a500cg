@@ -14,7 +14,7 @@ on init
     setprop_from_sysfs /sys/kernel/fw_update/fw_info/valhooks_version sys.valhooks.version
 
 on boot
-    insmod /lib/modules/rmi4.ko boot_mode=1
+#    #insmod /lib/modules/rmi4.ko boot_mode=1
 
 service upi_ug31xx /upi_ug31xx
     class core
