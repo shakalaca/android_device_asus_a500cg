@@ -1,6 +1,6 @@
-
+LOCAL_PATH := device/asus/a500cg
 BOARD_CREATE_MODPROBE_SYMLINK := true
-
+REF_PRODUCT_NAME := redhookbay
 TARGET_ARCH := x86
 #TARGET_ARCH_VARIANT := x86-atom
 TARGET_ARCH_VARIANT := x86
@@ -8,10 +8,20 @@ TARGET_CPU_ABI := x86
 TARGET_CPU_ABI2 := armeabi-v7a
 TARGET_CPU_SMP := true
 TARGET_CPU_VARIANT := x86
-
+TARGET_NO_KERNEL := true
 COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 LOCAL_CFLAGS += -DARCH_IA32
 BOARD_MALLOC_ALIGNMENT := 16
+TARGET_PRELINK_MODULE := false
+INTEL_INGREDIENTS_VERSIONS := true
+
+TARGET_RIL_DISABLE_STATUS_POLLING := true
+TARGET_PHONE_HAS_OEM_LIBRARY := true
+
+#-include $(LOCAL_PATH)/OptAtom.mk
+
+include $(GENERIC_X86_CONFIG_MK)
+TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 
 TARGET_BOARD_PLATFORM := clovertrail
 TARGET_BOOTLOADER_BOARD_NAME := clovertrail
@@ -47,7 +57,7 @@ BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 WPA_SUPPLICANT_VERSION := VER_0_8_X
 BOARD_WPA_SUPPLICANT_DRIVER := NL80211
 BOARD_HOSTAPD_DRIVER := NL80211
-WIFI_DRIVER_FW_PATH_PARAM := "/sys/module/bcmdhd/parameters/firmware_path"
+WIFI_DRIVER_FW_PATH_PARAM := "/sys/module/bcm43362/parameters/firmware_path"
 WIFI_DRIVER_FW_PATH_AP    := "/system/etc/firmware/fw_bcmdhd_43362_apsta.bin"
 WIFI_DRIVER_FW_PATH_STA   := "/system/etc/firmware/fw_bcmdhd_43362.bin"
 WIFI_DRIVER_MODULE_ARG := "iface_name=wlan0 firmware_path=/system/etc/firmware/fw_bcmdhd_43362.bin"
@@ -92,9 +102,28 @@ BOARD_SEPOLICY_UNION += \
     bluetooth.te \
     mediaserver.te
 
-# USE_INTEL_MDP := true
+USE_INTEL_MDP := true
 # BUILD_WITH_FULL_STAGEFRIGHT := true
-# BOARD_USES_WRS_OMXIL_CORE := true
-# BOARD_USE_LIBVA_INTEL_DRIVER := true
-# BOARD_USE_LIBVA := true
-# BOARD_USE_LIBMIX := true
+BOARD_USES_WRS_OMXIL_CORE := true
+BOARD_USE_LIBVA_INTEL_DRIVER := true
+BOARD_USE_LIBVA := true
+BOARD_USE_LIBMIX := true
+
+INTEL_HOUDINI := true
+ifdef ($(INTEL_HOUDINI))
+ADDITIONAL_BUILD_PROPERTIES += ro.product.cpu.abi2=armeabi-v7a
+ADDITIONAL_BUILD_PROPERTIES += ro.product.cpu.upgradeabi=armeabi-v7a
+ADDITIONAL_BUILD_PROPERTIES += dalvik.vm.houdini=on
+endif
+
+#TARGET_PROVIDES_INIT := true
+#TARGET_PROVIDES_INIT_TARGET_RC := true
+
+# skip doc from building
+BOARD_SKIP_ANDROID_DOC_BUILD := true
+BUILD_WITH_FULL_STAGEFRIGHT := true
+
+USE_CAMERA_HAL2 := true
+# Hack to use AVC to encode camera videos.
+TARGET_NO_METADATA_ON_AVC_ENC := true
+

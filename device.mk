@@ -14,6 +14,9 @@
 # limitations under the License.
 #
 
+# Base directory for mixin implementations
+#$(call add-mixin-basedir, device/intel/mixins)
+
 LOCAL_PATH := device/asus/a500cg
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
@@ -125,7 +128,6 @@ PRODUCT_COPY_FILES += \
 
 # Permissions
 PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
     frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
@@ -255,13 +257,22 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     gsm.net.interface=rmnet0 \
     persist.system.at-proxy.mode=0
 
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    ro.debuggable=0 \
-    persist.sys.usb.config=mtp
-#    ro.secure=0 \
-#    ro.adb.secure=0 \
-
 # setup dalvik vm configs.
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 
 PRODUCT_CHARACTERISTICS := phone
+
+# Houdini
+PRODUCT_COPY_FILES += \
+        $(call find-copy-subdir-files,*,$(LOCAL_PATH)/houdini/system,system)
+
+PRODUCT_PACKAGES += \
+   libhoudini_hook \
+   houdini_hook
+
+PRODUCT__DEFAULT_PROPERTY_OVERRIDES += \
+    ro.debuggable=1 \
+    persist.sys.usb.config=mtp \
+    ro.secure=0 \
+    ro.adb.secure=0 \
+
